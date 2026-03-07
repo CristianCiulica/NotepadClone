@@ -31,6 +31,7 @@ namespace NotepadPlus.ViewModels
             }
         }
 
+
         public FileItemViewModel(string fullPath, bool isDirectory)
         {
             FullPath = fullPath;

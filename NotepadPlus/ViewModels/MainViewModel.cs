@@ -28,6 +28,12 @@ namespace NotepadPlus.ViewModels
             _fileManager = new FileManager();
             Tabs = new ObservableCollection<TabViewModel>();
 
+            DrivesAndFolders = new ObservableCollection<FileItemViewModel>();
+            foreach (var drive in DirectoryManager.GetLogicalDrives())
+            {
+                DrivesAndFolders.Add(new FileItemViewModel(drive, true));
+            }
+
             NewFileCommand = new RelayCommand(o => AddNewTab());
             CloseFileCommand = new RelayCommand(o => CloseTab((TabViewModel)o));
             CloseAllFilesCommand = new RelayCommand(o => CloseAllTabs());
@@ -98,7 +104,7 @@ namespace NotepadPlus.ViewModels
                 tab.IsSaved = true;
             }
         }
-
+        public ObservableCollection<FileItemViewModel> DrivesAndFolders { get; set; }
         public void SaveFileAs(TabViewModel tab)
         {
             if (tab == null) return;
