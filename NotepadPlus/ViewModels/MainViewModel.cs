@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace NotepadPlus.ViewModels
 {
@@ -24,6 +25,7 @@ namespace NotepadPlus.ViewModels
         {
             Tabs = new ObservableCollection<TabViewModel>();
             AddNewTab();
+            NewFileCommand = new RelayCommand(o => AddNewTab());
         }
 
         public void AddNewTab()
@@ -34,5 +36,7 @@ namespace NotepadPlus.ViewModels
             Tabs.Add(newTab);
             SelectedTab = newTab;
         }
+        public ICommand NewFileCommand { get; set; }
+
     }
 }

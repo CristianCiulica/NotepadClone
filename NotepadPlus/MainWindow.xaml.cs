@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using NotepadPlus.ViewModels;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,19 +12,12 @@ using System.Windows.Shapes;
 
 namespace NotepadPlus
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void MenuNewFile_Click(object sender, RoutedEventArgs e)
-        {
-
+            this.DataContext = new MainViewModel();
         }
 
         private void MenuOpenFile_Click(object sender, RoutedEventArgs e)
