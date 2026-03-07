@@ -1,0 +1,62 @@
+﻿<Window x:Class="NotepadPlus.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NotepadPlus"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem x:Name="MenuNewFile" Header="New file" Click="MenuNewFile_Click"/>
+                <MenuItem x:Name="MenuOpenFile" Header="Open file..."/>
+                <Separator/>
+                <MenuItem x:Name="MenuSaveFile" Header="Save file"/>
+                <MenuItem x:Name="MenuSaveAs" Header="Save file as..."/>
+                <Separator/>
+                <MenuItem x:Name="MenuCloseAll" Header="Close all files"/>
+                <MenuItem x:Name="MenuExit" Header="Exit" Click="MenuExit_Click"/>
+            </MenuItem>
+
+            <MenuItem Header="Search">
+                <MenuItem x:Name="MenuFind" Header="Find..."/>
+                <MenuItem x:Name="MenuReplace" Header="Replace..."/>
+                <MenuItem x:Name="MenuReplaceAll" Header="Replace All..."/>
+            </MenuItem>
+
+            <MenuItem Header="View">
+                <MenuItem x:Name="MenuViewStandard" Header="Standard"/>
+                <MenuItem x:Name="MenuViewFolderExplorer" Header="Folder Explorer"/>
+            </MenuItem>
+
+            <MenuItem Header="Help">
+                <MenuItem x:Name="MenuAbout" Header="About"/>
+            </MenuItem>
+        </Menu>
+
+        <ToolBar DockPanel.Dock="Top">
+            <Button x:Name="BtnNewFile" Content="New" Width="40" Click="MenuNewFile_Click"/>
+            <Button x:Name="BtnOpenFile" Content="Open" Width="40"/>
+            <Button x:Name="BtnSaveFile" Content="Save" Width="40"/>
+        </ToolBar>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" x:Name="FolderExplorerColumn"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TreeView x:Name="FolderTreeView" Grid.Column="0">
+            </TreeView>
+
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="LightGray"/>
+
+            <TabControl x:Name="FilesTabControl" Grid.Column="2">
+            </TabControl>
+        </Grid>
+
+    </DockPanel>
+</Window>
