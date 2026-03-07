@@ -19,5 +19,24 @@ namespace NotepadPlus.Logic
             try { return new List<string>(Directory.GetFiles(path)); }
             catch { return new List<string>(); }
         }
+        
+        public static void CopyDirectory(string sourceDir, string destinationDir)
+        {
+         
+            Directory.CreateDirectory(destinationDir);
+
+       
+            foreach (var file in Directory.GetFiles(sourceDir))
+            {
+                string destFile = Path.Combine(destinationDir, Path.GetFileName(file));
+                File.Copy(file, destFile, true);
+            }
+
+            foreach (var dir in Directory.GetDirectories(sourceDir))
+            {
+                string destDir = Path.Combine(destinationDir, Path.GetFileName(dir));
+                CopyDirectory(dir, destDir);
+            }
+        }
     }
 }

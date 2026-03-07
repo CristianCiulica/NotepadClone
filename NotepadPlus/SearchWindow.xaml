@@ -1,0 +1,38 @@
+<Window x:Class="NotepadPlus.SearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Find &amp; Replace" Height="250" Width="400"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        FontFamily="Segoe UI" Background="#F3F3F3" Topmost="True">
+    
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Find what:" Grid.Row="0" Grid.Column="0" Margin="0,5,10,15" VerticalAlignment="Center"/>
+        <TextBlock Text="Replace with:" Grid.Row="1" Grid.Column="0" Margin="0,5,10,15" VerticalAlignment="Center"/>
+
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="0,0,15,10" Height="25" Padding="2" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,15,10" Height="25" Padding="2" Text="{Binding ReplacementText, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="0,10,0,0">
+            <RadioButton Content="Current Tab" IsChecked="True" Margin="0,0,15,0"/>
+            <RadioButton Content="All Tabs" IsChecked="{Binding SearchAllTabs}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="4">
+            <Button Content="Find" Command="{Binding FindCommand}" Height="25" Margin="0,0,0,10" Background="#FFFFFF" BorderBrush="#CCCCCC" Cursor="Hand"/>
+            <Button Content="Replace" Command="{Binding ReplaceCommand}" Height="25" Margin="0,0,0,10" Background="#FFFFFF" BorderBrush="#CCCCCC" Cursor="Hand"/>
+            <Button Content="Replace All" Command="{Binding ReplaceAllCommand}" Height="25" Margin="0,0,0,10" Background="#FFFFFF" BorderBrush="#CCCCCC" Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</Window>

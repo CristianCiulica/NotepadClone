@@ -22,9 +22,9 @@
             </MenuItem>
 
             <MenuItem Header="Search">
-                <MenuItem Header="Find..."/>
-                <MenuItem Header="Replace..."/>
-                <MenuItem Header="Replace All..."/>
+                <MenuItem Header="Find..." Command="{Binding ShowSearchCommand}"/>
+                <MenuItem Header="Replace..." Command="{Binding ShowSearchCommand}"/>
+                <MenuItem Header="Replace All..." Command="{Binding ShowSearchCommand}"/>
             </MenuItem>
 
             <MenuItem Header="View">
@@ -55,12 +55,22 @@
             <TreeView x:Name="FolderTreeView" Grid.Column="0" 
                       BorderThickness="0" Background="#F8F9FA"
                       ItemsSource="{Binding DrivesAndFolders}">
-
+                
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <StackPanel Orientation="Horizontal" Margin="0,2">
-                            <TextBlock Text="{Binding Icon}" Margin="0,0,5,0"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,2" Background="Transparent">
+                            
+                            <StackPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="New file" Command="{Binding ContextNewFileCommand}"/>
+                                    <MenuItem Header="Copy path" Command="{Binding ContextCopyPathCommand}"/>
+                                    <MenuItem Header="Copy folder" Command="{Binding ContextCopyFolderCommand}"/>
+                                    <MenuItem Header="Paste folder" Command="{Binding ContextPasteFolderCommand}"/>
+                                </ContextMenu>
+                            </StackPanel.ContextMenu>
 
+                            <TextBlock Text="{Binding Icon}" Margin="0,0,5,0"/>
+                            
                             <TextBlock Text="{Binding Name}" VerticalAlignment="Center">
                                 <TextBlock.InputBindings>
                                     <MouseBinding MouseAction="LeftDoubleClick" 
@@ -71,7 +81,7 @@
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
-
+                
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>

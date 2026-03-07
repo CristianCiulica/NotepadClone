@@ -47,6 +47,15 @@ namespace NotepadPlus.ViewModels
             {
                 Children.Add(new FileItemViewModel("DUMMY", false));
             }
+            ContextNewFileCommand = new RelayCommand(o => CreateNewFile(), o => IsDirectory);
+            ContextCopyPathCommand = new RelayCommand(o => System.Windows.Clipboard.SetText(FullPath));
+            ContextCopyFolderCommand = new RelayCommand(o =>
+            {
+                CopiedFolderPath = FullPath;
+                System.Windows.Input.CommandManager.InvalidateRequerySuggested(); // Actualizează butoanele de Paste
+            }, o => IsDirectory);
+
+            ContextPasteFolderCommand = new RelayCommand(o => PasteCopiedFolder(), o => IsDirectory && !string.IsNullOrEmpty(CopiedFolderPath));
         }
 
         private void LoadChildren()
@@ -62,5 +71,38 @@ namespace NotepadPlus.ViewModels
                 Children.Add(new FileItemViewModel(filePath, false));
             }
         }
+        private void CreateNewFile()
+        {
+            string newFilePath = Path.Combine(FullPath, "NewFile.txt");
+            int counter = 1;
+
+     
+            while (File.Exists(newFilePath))
+            {
+                newFilePath = Path.Combine(FullPath, $"NewFile ({counter}).txt");
+                counter++;
+            }
+
+            File.WriteAllText(newFilePath, ""); 
+
+            if (IsExpanded) LoadChildren(); 
+        }
+
+        private void PasteCopiedFolder()
+        {
+            string destPath = Path.Combine(FullPath, Path.GetFileName(CopiedFolderPath));
+
+            if (!Directory.Exists(destPath)) // Evităm să dăm paste peste el însuși
+            {
+                DirectoryManager.CopyDirectory(CopiedFolderPath, destPath);
+                if (IsExpanded) LoadChildren(); // Reîncărcăm ca să vedem folderul lipit
+            }
+        }
+
+        public static string CopiedFolderPath { get; set; }
+        public System.Windows.Input.ICommand ContextNewFileCommand { get; set; }
+        public System.Windows.Input.ICommand ContextCopyPathCommand { get; set; }
+        public System.Windows.Input.ICommand ContextCopyFolderCommand { get; set; }
+        public System.Windows.Input.ICommand ContextPasteFolderCommand { get; set; }
     }
 }

@@ -34,7 +34,6 @@ namespace NotepadPlus.ViewModels
             {
                 DrivesAndFolders.Add(new FileItemViewModel(drive, true));
             }
-
             NewFileCommand = new RelayCommand(o => AddNewTab());
             CloseFileCommand = new RelayCommand(o => CloseTab((TabViewModel)o));
             CloseAllFilesCommand = new RelayCommand(o => CloseAllTabs());
@@ -42,10 +41,34 @@ namespace NotepadPlus.ViewModels
             OpenFileCommand = new RelayCommand(o => OpenFile());
             SaveFileCommand = new RelayCommand(o => SaveFile(SelectedTab));
             SaveAsCommand = new RelayCommand(o => SaveFileAs(SelectedTab));
+        
+            ShowSearchCommand = new RelayCommand(o => ShowSearchWindow());
+            FindCommand = new RelayCommand(o => FindText());
+            ReplaceCommand = new RelayCommand(o => ReplaceTextAction(false)); 
+            ReplaceAllCommand = new RelayCommand(o => ReplaceTextAction(true)); 
 
             AddNewTab();
         }
+        private string _searchText;
+        public string SearchText
+        {
+            get { return _searchText; }
+            set { _searchText = value; OnPropertyChanged(); }
+        }
 
+        private string _replacementText;
+        public string ReplacementText
+        {
+            get { return _replacementText; }
+            set { _replacementText = value; OnPropertyChanged(); }
+        }
+
+        private bool _searchAllTabs;
+        public bool SearchAllTabs
+        {
+            get { return _searchAllTabs; }
+            set { _searchAllTabs = value; OnPropertyChanged(); }
+        }
         public void CloseTab(TabViewModel tabToClose)
         {
             if (tabToClose != null)
@@ -125,6 +148,69 @@ namespace NotepadPlus.ViewModels
                 tab.IsSaved = true;
             }
         }
+        private void ShowSearchWindow()
+        {
+            
+            SearchWindow searchWin = new SearchWindow();
+            searchWin.DataContext = this;
+            searchWin.Show();
+        }
+
+        private void FindText()
+        {
+            if (string.IsNullOrEmpty(SearchText)) return;
+
+            int count = 0;
+            if (SearchAllTabs)
+            {
+                foreach (var tab in Tabs) count += CountOccurrences(tab.TextContent, SearchText);
+            }
+            else if (SelectedTab != null)
+            {
+                count = CountOccurrences(SelectedTab.TextContent, SearchText);
+            }
+
+      
+            System.Windows.MessageBox.Show($"Am găsit textul '{SearchText}' de {count} ori.", "Find Result");
+        }
+
+        private int CountOccurrences(string text, string search)
+        {
+            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(search)) return 0;
+            return (text.Length - text.Replace(search, "").Length) / search.Length;
+        }
+
+        private void ReplaceTextAction(bool replaceAll)
+        {
+            if (string.IsNullOrEmpty(SearchText)) return;
+
+            if (SearchAllTabs)
+            {
+                foreach (var tab in Tabs)
+                    tab.TextContent = DoReplace(tab.TextContent, SearchText, ReplacementText, replaceAll);
+            }
+            else if (SelectedTab != null)
+            {
+                SelectedTab.TextContent = DoReplace(SelectedTab.TextContent, SearchText, ReplacementText, replaceAll);
+            }
+        }
+
+        private string DoReplace(string original, string search, string replace, bool replaceAll)
+        {
+            if (string.IsNullOrEmpty(original)) return original;
+            replace = replace ?? ""; 
+
+            if (replaceAll)
+            {
+                return original.Replace(search, replace);
+            }
+            else
+            {
+                int index = original.IndexOf(search);
+                if (index < 0) return original; 
+                return original.Substring(0, index) + replace + original.Substring(index + search.Length);
+            }
+        }
         public ObservableCollection<FileItemViewModel> DrivesAndFolders { get; set; }
         public void SaveFileAs(TabViewModel tab)
         {
@@ -141,10 +227,13 @@ namespace NotepadPlus.ViewModels
         public ICommand NewFileCommand { get; set; }
         public ICommand CloseFileCommand { get; set; } 
         public ICommand CloseAllFilesCommand { get; set; }
-
         public ICommand OpenFileCommand { get; set; }
         public ICommand SaveFileCommand { get; set; }
         public ICommand SaveAsCommand { get; set; }
+        public ICommand ShowSearchCommand { get; set; }
+        public ICommand FindCommand { get; set; }
+        public ICommand ReplaceCommand { get; set; }
+        public ICommand ReplaceAllCommand { get; set; }
 
     }
 }
