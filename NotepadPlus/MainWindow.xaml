@@ -60,7 +60,14 @@
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <StackPanel Orientation="Horizontal" Margin="0,2">
                             <TextBlock Text="{Binding Icon}" Margin="0,0,5,0"/>
-                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+
+                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center">
+                                <TextBlock.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick" 
+                                                  Command="{Binding DataContext.OpenFileFromTreeCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                                  CommandParameter="{Binding}"/>
+                                </TextBlock.InputBindings>
+                            </TextBlock>
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>

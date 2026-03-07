@@ -21,6 +21,14 @@ namespace NotepadPlus.Logic
             return null;
         }
 
+        public string ReadFile(string path)
+        {
+            if (File.Exists(path))
+            {
+                return File.ReadAllText(path);
+            }
+            return null;
+        }
         public string SaveFileAs(string content)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();

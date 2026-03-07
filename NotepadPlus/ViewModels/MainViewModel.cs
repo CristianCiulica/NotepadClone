@@ -23,6 +23,7 @@ namespace NotepadPlus.ViewModels
                 OnPropertyChanged();
             }
         }
+        public ICommand OpenFileFromTreeCommand { get; set; }
         public MainViewModel()
         {
             _fileManager = new FileManager();
@@ -37,7 +38,7 @@ namespace NotepadPlus.ViewModels
             NewFileCommand = new RelayCommand(o => AddNewTab());
             CloseFileCommand = new RelayCommand(o => CloseTab((TabViewModel)o));
             CloseAllFilesCommand = new RelayCommand(o => CloseAllTabs());
-
+            OpenFileFromTreeCommand = new RelayCommand(o => OpenFileFromTree((FileItemViewModel)o));
             OpenFileCommand = new RelayCommand(o => OpenFile());
             SaveFileCommand = new RelayCommand(o => SaveFile(SelectedTab));
             SaveAsCommand = new RelayCommand(o => SaveFileAs(SelectedTab));
@@ -56,6 +57,26 @@ namespace NotepadPlus.ViewModels
         public void CloseAllTabs()
         {
             Tabs.Clear();
+        }
+
+        public void OpenFileFromTree(FileItemViewModel item)
+        {
+            if (item == null) return;
+            if (item.IsDirectory) return;
+            string content = _fileManager.ReadFile(item.FullPath);
+
+            if (content != null)
+            {
+                var newTab = new TabViewModel(item.Name)
+                {
+                    TextContent = content,
+                    FilePath = item.FullPath,
+                    IsSaved = true
+                };
+
+                Tabs.Add(newTab);
+                SelectedTab = newTab;
+            }
         }
         public void AddNewTab()
         {
