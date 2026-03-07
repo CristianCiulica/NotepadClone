@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace NotepadPlus.ViewModels
 {
+
     public class TabViewModel : ViewModelBase
     {
         private string _fileName;
@@ -21,6 +22,13 @@ namespace NotepadPlus.ViewModels
                 OnPropertyChanged();
             }
         }
+        private string _filePath;
+        public string FilePath
+        {
+            get { return _filePath; }
+            set { _filePath = value; OnPropertyChanged(); }
+        }
+
         public string TextContent
         {
             get { return _textContent; }
