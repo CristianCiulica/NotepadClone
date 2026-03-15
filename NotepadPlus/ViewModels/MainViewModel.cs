@@ -101,7 +101,7 @@ namespace NotepadPlus.ViewModels
             {
                 SelectedTab = tabToClose; 
                 var result = System.Windows.MessageBox.Show(
-                    $"Vrei să salvezi modificările din '{tabToClose.FileName}'?",
+                    $"Vrei sa salvezi modificarile din '{tabToClose.FileName}'?",
                     "Notepad++ Clone",
                     System.Windows.MessageBoxButton.YesNoCancel,
                     System.Windows.MessageBoxImage.Warning);

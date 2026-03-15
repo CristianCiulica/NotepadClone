@@ -9,9 +9,9 @@ namespace NotepadPlus.ViewModels
         public string Name { get; set; }
         public string FullPath { get; set; }
         public bool IsDirectory { get; set; }
-        public string Icon => IsDirectory ? "📁" : "📄";
+        public string Icon => IsDirectory ? "🖿" : "📄";
         public ObservableCollection<FileItemViewModel> Children { get; set; }
-
+        
         private bool _isExpanded;
         public bool IsExpanded
         {
@@ -52,7 +52,7 @@ namespace NotepadPlus.ViewModels
             ContextCopyFolderCommand = new RelayCommand(o =>
             {
                 CopiedFolderPath = FullPath;
-                System.Windows.Input.CommandManager.InvalidateRequerySuggested(); // Actualizează butoanele de Paste
+                System.Windows.Input.CommandManager.InvalidateRequerySuggested();
             }, o => IsDirectory);
 
             ContextPasteFolderCommand = new RelayCommand(o => PasteCopiedFolder(), o => IsDirectory && !string.IsNullOrEmpty(CopiedFolderPath));
@@ -92,10 +92,10 @@ namespace NotepadPlus.ViewModels
         {
             string destPath = Path.Combine(FullPath, Path.GetFileName(CopiedFolderPath));
 
-            if (!Directory.Exists(destPath)) // Evităm să dăm paste peste el însuși
+            if (!Directory.Exists(destPath))
             {
                 DirectoryManager.CopyDirectory(CopiedFolderPath, destPath);
-                if (IsExpanded) LoadChildren(); // Reîncărcăm ca să vedem folderul lipit
+                if (IsExpanded) LoadChildren(); 
             }
         }
 
