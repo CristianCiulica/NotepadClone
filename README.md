@@ -2,6 +2,7 @@
 
 A clone of the popular text editor Notepad++, built from scratch using **C#** and **WPF** (Windows Presentation Foundation). 
 
+
 This project was developed strictly adhering to the **MVVM (Model-View-ViewModel)** design pattern, ensuring a complete separation of concerns between the user interface (XAML) and the business logic (C#), keeping the *code-behind* entirely clean.
 
 
