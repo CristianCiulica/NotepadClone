@@ -4,6 +4,7 @@ A clone of the popular text editor Notepad++, built from scratch using **C#** an
 
 This project was developed strictly adhering to the **MVVM (Model-View-ViewModel)** design pattern, ensuring a complete separation of concerns between the user interface (XAML) and the business logic (C#), keeping the *code-behind* entirely clean.
 
+
 ## Implemented Features
 
 ### 1. File Management (Tabs)
